@@ -1,0 +1,184 @@
+<section class="intro">
+  <p class="eyebrow">YOUR NEXT SHOT, SIMPLIFIED</p>
+  <h1>What’s the play?</h1>
+  <p class="intro-copy">
+    Start with the number to the pin. We’ll help you find a club from your bag.
+  </p>
+</section>
+
+<div class="advisor-layout">
+  <form class="shot-card" [formGroup]="shotForm" (ngSubmit)="getRecommendation()" novalidate>
+    <div class="distance-block">
+      <label for="distance">Distance to pin</label>
+      <div class="distance-input-wrap">
+        <input
+          id="distance"
+          type="number"
+          inputmode="numeric"
+          min="1"
+          max="600"
+          step="1"
+          formControlName="distanceToPinYards"
+          aria-describedby="distance-help distance-error"
+        />
+        <span>yd</span>
+      </div>
+      <small id="distance-help">Measure from your ball to the pin.</small>
+      @if (
+        shotForm.controls.distanceToPinYards.invalid && shotForm.controls.distanceToPinYards.touched
+      ) {
+        <p class="field-error" id="distance-error">Enter a distance from 1 to 600 yards.</p>
+      }
+    </div>
+
+    <fieldset class="conditions">
+      <legend>Shot conditions <span>Optional</span></legend>
+      <div class="condition-grid">
+        <label class="field-label" for="lie">Lie</label>
+        <select id="lie" formControlName="lieType">
+          <option value="fairway">Fairway</option>
+          <option value="rough">Rough</option>
+          <option value="bunker">Bunker</option>
+          <option value="tee">Tee</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label class="field-label" for="ball-position">Ball at your feet</label>
+        <select id="ball-position" formControlName="ballPosition">
+          <option value="level">Level</option>
+          <option value="above">Above feet</option>
+          <option value="below">Below feet</option>
+        </select>
+
+        <label class="field-label" for="slope">Ground slope</label>
+        <select id="slope" formControlName="slope">
+          <option value="level">Level</option>
+          <option value="uphill">Uphill</option>
+          <option value="downhill">Downhill</option>
+        </select>
+
+        <label class="field-label" for="wind">Wind</label>
+        <select id="wind" formControlName="wind">
+          <option value="calm">Calm</option>
+          <option value="light">Light</option>
+          <option value="moderate">Moderate</option>
+          <option value="strong">Strong</option>
+        </select>
+      </div>
+      <div class="hazards" aria-label="Hazards and obstructions">
+        <label class="check-row"
+          ><input type="checkbox" formControlName="bunkerInFront" /><span
+            >Bunker in front</span
+          ></label
+        >
+        <label class="check-row"
+          ><input type="checkbox" formControlName="waterInFront" /><span
+            >Water in front</span
+          ></label
+        >
+        <label class="check-row"
+          ><input type="checkbox" formControlName="treeObstruction" /><span
+            >Trees in the way</span
+          ></label
+        >
+      </div>
+      @if (shotForm.controls.bunkerInFront.value || shotForm.controls.waterInFront.value) {
+        <div class="supplemental-condition">
+          <label for="hazard-carry"
+            >Carry to the far edge of the front hazard <span>(optional)</span></label
+          >
+          <div class="distance-input-wrap compact-input">
+            <input
+              id="hazard-carry"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="600"
+              step="1"
+              formControlName="hazardCarryYards"
+              aria-describedby="hazard-carry-help"
+            /><span>yd</span>
+          </div>
+          <small id="hazard-carry-help"
+            >Enter the distance from your ball to the far edge. The estimate adds a 5 yd
+            buffer.</small
+          >
+        </div>
+      }
+      @if (shotForm.controls.treeObstruction.value) {
+        <div class="supplemental-condition">
+          <label for="tree-path">Is the normal shot window clear?</label>
+          <select id="tree-path" formControlName="treeShotPath">
+            <option value="uncertain">Not sure</option>
+            <option value="clear">Yes, full path is clear</option>
+            <option value="blocked">No, blocked</option>
+          </select>
+        </div>
+      }
+    </fieldset>
+
+    <button class="primary-button" type="submit">
+      Get Recommendation <span aria-hidden="true">→</span>
+    </button>
+    <p class="bag-note">
+      Using {{ activeClubCount() }} active clubs from <a routerLink="/my-bag">My Bag</a>
+    </p>
+  </form>
+
+  <aside id="recommendation-panel" class="result-card" aria-live="polite" aria-atomic="true">
+    @if (recommendation(); as result) {
+      <div class="result-heading">
+        <span class="result-icon" aria-hidden="true">✳</span>
+        <div>
+          <p class="eyebrow">STARTING SUGGESTION</p>
+          <h2>{{ result.primaryClub.name }}</h2>
+        </div>
+      </div>
+      <div class="carry-number">
+        <strong>{{ result.estimatedCarryDistanceYards }}</strong
+        ><span>yd estimated carry</span>
+      </div>
+      <!-- <p class="result-explanation">{{ result.explanation }}</p> -->
+      @if (result.warnings.length) {
+        <div class="warnings">
+          <strong>Keep in mind</strong>
+          <ul>
+            @for (warning of result.warnings; track warning) {
+              @if (warning.startsWith('Swing:')) {
+                <li>
+                  <strong>Swing</strong>
+                  <ul class="swing-cues">
+                    @for (cue of splitSwingCues(warning); track cue) {
+                      <li>{{ cue }}</li>
+                    }
+                  </ul>
+                </li>
+              } @else {
+                <li>{{ warning }}</li>
+              }
+            }
+          </ul>
+        </div>
+      }
+      @if (result.alternativeClub) {
+        <div class="alternative">
+          <span>Another option</span><strong>{{ result.alternativeClub.name }}</strong
+          ><span>{{ result.alternativeClub.carryDistanceYards }} yd carry</span>
+        </div>
+      }
+    } @else {
+      <div class="empty-result">
+        <span class="empty-icon" aria-hidden="true">⌁</span>
+        <p class="eyebrow">READY WHEN YOU ARE</p>
+        <h2>Your suggestion<br />will show up here.</h2>
+        <p>Enter your distance and tap the button to see a club from your bag.</p>
+      </div>
+    }
+  </aside>
+</div>
+
+<p class="estimate-note">Condition notes are tendencies, not guarantees; your lie and strike affect the result.</p>
+
+@if (recommendation()) {
+  <div class="mobile-scroll-reserve" aria-hidden="true"></div>
+}

@@ -1,0 +1,15 @@
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" routerLink="/" aria-label="Golf Caddie home">
+      <span class="brand-mark" aria-hidden="true">G</span>
+      <span>Golf Caddie</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shot advisor</a>
+      <a routerLink="/my-bag" routerLinkActive="active">My Bag</a>
+      <a routerLink="/settings" routerLinkActive="active">Settings</a>
+    </nav>
+  </header>
+  <main class="page-wrap"><router-outlet /></main>
+  <footer class="site-footer">A simple playing partner. Your numbers stay on this device.</footer>
+</div>

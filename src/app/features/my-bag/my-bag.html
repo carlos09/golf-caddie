@@ -1,0 +1,46 @@
+<section class="page-heading">
+  <p class="eyebrow">YOUR EQUIPMENT</p>
+  <h1>My Bag</h1>
+  <p>Use your own typical carry distances when you have them. New club distances are marked as estimates until you change them.</p>
+</section>
+
+<section class="club-list" aria-label="Clubs in your bag">
+  @for (club of clubs(); track club.id) {
+    <article class="club-row" [class.inactive]="!club.active">
+      <div class="club-info">
+        <span class="club-icon" aria-hidden="true">⌁</span>
+        <div>
+          <h2>{{ club.name }}</h2>
+          <p>
+            @if (club.loftDegrees !== undefined) { {{ club.loftDegrees }}° loft <span>·</span> }
+            Carry {{ club.carryDistanceYards !== undefined ? club.carryDistanceYards + ' yd' : 'N/A' }}
+            <span>·</span>
+            Total {{ club.totalDistanceYards !== undefined ? club.totalDistanceYards + ' yd' : 'N/A' }}
+            <span>·</span> {{ club.distanceSource === 'measured' ? 'Measured' : 'Estimate' }}
+          </p>
+        </div>
+      </div>
+      <div class="club-actions">
+        <button class="quiet-button" type="button" (click)="toggleClub(club)" [attr.aria-label]="(club.active ? 'Deactivate ' : 'Activate ') + club.name">{{ club.active ? 'In bag' : 'Inactive' }}</button>
+        <button class="remove-button" type="button" (click)="removeClub(club)" [attr.aria-label]="'Remove ' + club.name">Remove</button>
+      </div>
+    </article>
+  } @empty {
+    <div class="empty-bag"><h2>Your bag is empty</h2><p>Add a club below to start building your set.</p></div>
+  }
+</section>
+
+<section class="add-card">
+  <div><p class="eyebrow">MAKE IT YOURS</p><h2>Add a club</h2><p>Enter your club’s loft and estimated distances. Leave distance blank for clubs like a putter.</p></div>
+  <form [formGroup]="clubForm" (ngSubmit)="addClub()">
+    <label for="club-name">Club name</label>
+    <input id="club-name" type="text" formControlName="name" placeholder="e.g. 8 Iron" required />
+    <div class="form-pair">
+      <div><label for="club-loft">Loft <span>(optional)</span></label><div class="input-unit"><input id="club-loft" type="number" min="0" max="80" step="0.5" formControlName="loftDegrees" /><span>°</span></div></div>
+      <div><label for="club-carry">Est. carry <span>(optional)</span></label><div class="input-unit"><input id="club-carry" type="number" inputmode="numeric" min="1" max="400" formControlName="carryDistanceYards" /><span>yd</span></div></div>
+      <div><label for="club-total">Est. total <span>(optional)</span></label><div class="input-unit"><input id="club-total" type="number" inputmode="numeric" min="1" max="450" formControlName="totalDistanceYards" /><span>yd</span></div></div>
+    </div>
+    <button class="primary-button" type="submit" [disabled]="clubForm.invalid">Add to bag <span aria-hidden="true">+</span></button>
+    <p class="privacy-note">Your bag is stored in this browser on this device.</p>
+  </form>
+</section>

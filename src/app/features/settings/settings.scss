@@ -1,0 +1,11 @@
+:host { display: block; max-width: 740px; margin: 0 auto; }
+.eyebrow { margin: 0 0 8px; color: #658171; font-size: .72rem; font-weight: 800; letter-spacing: .13em; }
+h1 { margin: 0; color: #173a2f; font-size: clamp(2rem, 5vw, 3rem); }
+.intro { margin: 11px 0 25px; color: #66796e; }
+.settings-card { min-height: 100px; margin-bottom: 12px; padding: 20px; display: flex; align-items: center; gap: 15px; border: 1px solid #e2e9e1; border-radius: 16px; background: #fff; }
+.settings-icon { width: 44px; height: 44px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 13px; background: #eff4e9; color: #4a7654; font-size: 1.35rem; }
+.settings-card h2 { margin: 0 0 5px; color: #254638; font-size: 1rem; letter-spacing: -.02em; }
+.settings-card p { margin: 0; color: #718077; font-size: .87rem; line-height: 1.5; }
+.value-pill { margin-left: auto; padding: 7px 11px; border-radius: 999px; background: #f3f6ef; color: #466b50; font-size: .8rem; font-weight: 700; }
+.settings-note { margin-top: 23px; padding: 18px 20px; border-left: 3px solid #aac776; border-radius: 0 12px 12px 0; background: #edf2e7; color: #496054; }
+.settings-note p { margin: 6px 0 0; color: #60756a; font-size: .88rem; line-height: 1.55; }

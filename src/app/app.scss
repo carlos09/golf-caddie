@@ -1,0 +1,16 @@
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { min-height: 76px; padding: 0 clamp(20px, 5vw, 72px); display: flex; align-items: center; justify-content: space-between; gap: 24px; background: #123d32; color: #fff; }
+.brand { display: inline-flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; font-size: 1.15rem; font-weight: 750; letter-spacing: -.02em; }
+.brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: #d8ed8a; color: #173e32; font-family: Georgia, serif; font-weight: 800; }
+.main-nav { display: flex; align-items: center; gap: 8px; }
+.main-nav a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; color: #dce9e2; text-decoration: none; font-size: .94rem; font-weight: 600; transition: background .15s ease, color .15s ease; }
+.main-nav a:hover, .main-nav a.active { background: rgba(255,255,255,.13); color: #fff; }
+.page-wrap { width: min(1100px, calc(100% - 36px)); margin: 0 auto; padding: clamp(28px, 5vw, 58px) 0 48px; flex: 1; }
+.site-footer { padding: 20px; text-align: center; color: #6d7d74; font-size: .82rem; }
+@media (max-width: 560px) {
+  .topbar { min-height: auto; padding: 14px 18px 10px; display: block; }
+  .brand { margin: 0 0 10px 3px; }
+  .main-nav { width: 100%; justify-content: space-between; gap: 2px; }
+  .main-nav a { flex: 1; justify-content: center; min-height: 44px; padding: 0 7px; font-size: .83rem; }
+  .page-wrap { width: min(100% - 28px, 600px); padding-top: 26px; }
+}
