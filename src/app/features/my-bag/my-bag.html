@@ -16,7 +16,9 @@
             Carry {{ club.carryDistanceYards !== undefined ? club.carryDistanceYards + ' yd' : 'N/A' }}
             <span>·</span>
             Total {{ club.totalDistanceYards !== undefined ? club.totalDistanceYards + ' yd' : 'N/A' }}
-            <span>·</span> {{ club.distanceSource === 'measured' ? 'Measured' : 'Estimate' }}
+            @if (club.carryDistanceYards !== undefined || club.totalDistanceYards !== undefined) {
+              <span>·</span> {{ club.distanceSource === 'measured' ? 'Measured' : 'Estimate' }}
+            }
           </p>
         </div>
       </div>
