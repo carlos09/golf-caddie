@@ -2,6 +2,7 @@ export type LieType = 'fairway' | 'rough' | 'bunker' | 'tee' | 'other';
 export type FootPosition = 'level' | 'above' | 'below';
 export type SlopeDirection = 'level' | 'uphill' | 'downhill';
 export type TreeShotPath = 'clear' | 'blocked' | 'uncertain';
+export type BunkerSand = 'unknown' | 'firm' | 'soft';
 
 export interface ShotInput {
   distanceToPinYards: number;
@@ -14,4 +15,6 @@ export interface ShotInput {
   hazardCarryYards?: number;
   treeObstruction: boolean;
   treeShotPath: TreeShotPath;
+  bunkerSand: BunkerSand;
+  chipShot: boolean;
 }

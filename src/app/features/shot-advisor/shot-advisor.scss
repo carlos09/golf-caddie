@@ -15,12 +15,12 @@ h1 {
   margin: 0;
   font-size: clamp(2rem, 5vw, 3.15rem);
   line-height: 1.08;
-  color: var(--palette-ink);
+  color: var(--palette-light-green);
 }
 .intro-copy {
   margin: 12px 0 0;
   max-width: 560px;
-  color: var(--palette-ink);
+  color: var(light-green);
   line-height: 1.6;
 }
 .advisor-layout {
@@ -381,11 +381,6 @@ small {
   color: var(--palette-ink);
   font-size: 0.82rem;
   line-height: 1.55;
-}
-.warnings .swing-cues {
-  margin: 4px 0 0;
-  padding-left: 18px;
-  list-style-type: circle;
 }
 .warnings li + li {
   margin-top: 5px;

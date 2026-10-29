@@ -12,56 +12,94 @@ export class RecommendationService {
     const primaryClub = clubs[0];
     if (!primaryClub) return null;
 
-    const warnings: string[] = [];
-
+    const hazardTips: string[] = [];
     if (shot.bunkerInFront || shot.waterInFront) {
-      const waterAdvice = shot.waterInFront ? ' Favor a safe landing over the pin.' : '';
       if (shot.hazardCarryYards === undefined) {
-        const clearanceAdvice = shot.bunkerInFront && !shot.waterInFront ? ' Leave room to clear it.' : '';
-        warnings.push(`Front hazard: judge carry to the far edge, not just the pin.${clearanceAdvice}${waterAdvice}`);
+        hazardTips.push(
+          shot.waterInFront
+            ? 'Water: Carry beyond the far edge. Favor a safe landing.'
+            : 'Bunker ahead: carry beyond the far edge, not just to the pin.',
+        );
       } else {
         const carryNeededWithMargin = shot.hazardCarryYards + 5;
         if (primaryClub.carryDistanceYards < carryNeededWithMargin) {
-          const shortBy = carryNeededWithMargin - primaryClub.carryDistanceYards;
           const clearingAlternative = clubs.find((club) => club.carryDistanceYards >= carryNeededWithMargin);
-          const nextStep = clearingAlternative
-            ? `Longer option: ${clearingAlternative.carryDistanceYards} yd est.`
-            : 'No club estimate reaches it; lay up.';
-          warnings.push(`Clear ~${carryNeededWithMargin} yd (far edge + 5). Current pick is ~${shortBy} yd short. ${nextStep}${waterAdvice}`);
+          hazardTips.push(
+            clearingAlternative
+              ? `Need ~${carryNeededWithMargin} yd to clear. ${clearingAlternative.name} carries ${clearingAlternative.carryDistanceYards} yd.`
+              : `Need ~${carryNeededWithMargin} yd to clear. Lay up.`,
+          );
         } else {
-          warnings.push(`Clear ~${carryNeededWithMargin} yd (far edge + 5); current pick is ${primaryClub.carryDistanceYards} yd est.${waterAdvice}`);
+          hazardTips.push(
+            shot.waterInFront
+              ? `Carry ~${primaryClub.carryDistanceYards} yd. Clear ~${carryNeededWithMargin} yd and favor a safe landing.`
+              : `Carry ~${primaryClub.carryDistanceYards} yd clears the ~${carryNeededWithMargin} yd hazard.`,
+          );
         }
       }
     }
 
+    const treeTips: string[] = [];
     if (shot.treeObstruction) {
-      if (shot.treeShotPath === 'clear') {
-        warnings.push('Trees: take the normal shot only if the full swing and flight window are clear; otherwise punch out to a safe spot.');
+      treeTips.push(
+        shot.treeShotPath === 'clear'
+          ? 'Trees: use a full shot only with a clear swing and flight path.'
+          : 'Trees: if the path is blocked or uncertain, punch out.',
+      );
+    }
+
+    const lieTips: string[] = [];
+    if (shot.lieType === 'bunker') {
+      if (shot.bunkerSand === 'firm') {
+        lieTips.push('Firm sand: Square the face slightly. Use a controlled, steeper strike.');
+      } else if (shot.bunkerSand === 'soft') {
+        lieTips.push('Soft sand: Open the face. Let the bounce glide through.');
       } else {
-        warnings.push('Trees block or cloud the window: punch out to a safe spot instead of forcing it through.');
+        lieTips.push('Bunker: Splash sand just behind the ball. Follow through.');
       }
+    } else if (shot.lieType === 'rough') {
+      lieTips.push('Rough: Contact varies. Club up if the ball sits down.');
     }
 
-    const stanceCues: string[] = [];
-    if (shot.ballPosition === 'below') stanceCues.push('below feet may leak right for right-handed players');
-    if (shot.ballPosition === 'above') stanceCues.push('above feet may move left for right-handed players');
-    if (shot.slope === 'downhill') stanceCues.push('downhill changes flight');
-    if (shot.slope === 'uphill') stanceCues.push('uphill raises launch');
-
-    const distanceCues: string[] = [];
-    if (shot.lieType === 'rough') distanceCues.push('rough can reduce carry');
-    if (shot.lieType === 'bunker') distanceCues.push('from sand, clear the lip');
-
-    if (stanceCues.length || distanceCues.length) {
-      const cues = [...stanceCues, ...distanceCues].join('; ');
-      warnings.push(`Swing: Stay balanced; ${cues}.`);
+    const positionTips: string[] = [];
+    if (shot.ballPosition === 'below') {
+      positionTips.push('Below feet (RH): Tends right. Aim left. Widen stance and club up.');
+    } else if (shot.ballPosition === 'above') {
+      positionTips.push('Above feet (RH): Tends left. Aim right. Grip down and club up.');
     }
+
+    const slopeTips: string[] = [];
+    if (shot.slope === 'uphill') {
+      slopeTips.push('Uphill: Higher, shorter flight. Club up and match shoulders to slope.');
+    } else if (shot.slope === 'downhill') {
+      slopeTips.push('Downhill: Lower, longer flight. Consider less club and swing with slope.');
+    }
+
+    const shotTypeTips: string[] = [];
+    if (shot.chipShot) {
+      shotTypeTips.push('Chip: Stand tall with weight forward. Ball back, slight shaft lean. Brush after ball.');
+      shotTypeTips.push('If clear, use less loft and land it early to roll.');
+    } else if (/\bdriver\b/i.test(primaryClub.name)) {
+      shotTypeTips.push('Driver: Ball by lead heel. Tee for center contact and turn through.');
+    } else if (/\b(wedge|PW|AW)\b/i.test(primaryClub.name)) {
+      shotTypeTips.push('Wedge: Hands slightly ahead. Strike ball before turf and control carry.');
+    }
+
+    // Keep safety first, but reserve a slot for the directional advice the user selected.
+    const warnings = [
+      ...hazardTips,
+      ...positionTips,
+      ...treeTips,
+      ...lieTips,
+      ...slopeTips,
+      ...shotTypeTips,
+    ].slice(0, 3);
 
     return {
       primaryClub,
       alternativeClub: clubs[1],
       estimatedCarryDistanceYards: primaryClub.carryDistanceYards,
-      explanation: `${primaryClub.name} is the closest carry match in your active bag to ${shot.distanceToPinYards} yards. The club choice is a starting point; use the notes below to judge the shot in front of you.`,
+      explanation: `${primaryClub.name} is the closest carry match in your active bag to ${shot.distanceToPinYards} yards. The club choice is a starting point. Use the notes below to judge the shot in front of you.`,
       warnings,
     };
   }

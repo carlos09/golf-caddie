@@ -1,8 +1,9 @@
 <div class="app-shell">
   <header class="topbar" (keydown.escape)="closeMenu()">
     <a class="brand" routerLink="/" aria-label="Golf Caddie home">
-      <span class="brand-mark" aria-hidden="true">G</span>
-      <span>Golf Caddie</span>
+      <img src="images/logo-green.svg" alt="" />
+      <!-- <span class="brand-mark" aria-hidden="true">G</span> -->
+      <!-- <span>Golf Caddie</span> -->
     </a>
     <button
       class="nav-toggle"
@@ -18,13 +19,14 @@
         <span></span>
       </span>
     </button>
-    <nav
-      id="main-navigation"
-      class="main-nav"
-      [class.open]="menuOpen"
-      aria-label="Main navigation"
-    >
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Shot advisor</a>
+    <nav id="main-navigation" class="main-nav" [class.open]="menuOpen" aria-label="Main navigation">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+        >Shot advisor</a
+      >
       <a routerLink="/my-bag" routerLinkActive="active" (click)="closeMenu()">My Bag</a>
       <a routerLink="/settings" routerLinkActive="active" (click)="closeMenu()">Settings</a>
     </nav>

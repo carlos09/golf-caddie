@@ -44,21 +44,14 @@ export class ShotAdvisorComponent {
     lieType: ['fairway' as ShotInput['lieType']],
     ballPosition: ['level' as ShotInput['ballPosition']],
     slope: ['level' as ShotInput['slope']],
+    bunkerSand: ['unknown' as ShotInput['bunkerSand']],
+    chipShot: [false],
     bunkerInFront: [false],
     waterInFront: [false],
     hazardCarryYards: ['', [Validators.pattern(/^$|^\d+(\.\d+)?$/), Validators.min(1), Validators.max(600)]],
     treeObstruction: [false],
     treeShotPath: ['uncertain' as ShotInput['treeShotPath']],
   });
-
-  splitSwingCues(warning: string): string[] {
-    return warning
-      .replace(/^Swing:\s*/, '')
-      .split(';')
-      .map((cue) => cue.trim().replace(/[.!?]+$/, ''))
-      .filter(Boolean)
-      .map((cue) => cue.charAt(0).toUpperCase() + cue.slice(1));
-  }
 
   getRecommendation(): void {
     if (this.shotForm.invalid) {

@@ -73,6 +73,31 @@
         </div>
       </fieldset>
 
+      <label class="check-row chip-toggle">
+        <input type="checkbox" formControlName="chipShot" />
+        <span>Chip shot</span>
+      </label>
+
+      @if (shotForm.controls.lieType.value === 'bunker') {
+        <fieldset class="tree-path-options">
+          <legend>Sand condition</legend>
+          <div class="text-options">
+            <label [class.selected]="shotForm.controls.bunkerSand.value === 'unknown'">
+              <input type="radio" formControlName="bunkerSand" value="unknown" />
+              <span>Not sure</span>
+            </label>
+            <label [class.selected]="shotForm.controls.bunkerSand.value === 'firm'">
+              <input type="radio" formControlName="bunkerSand" value="firm" />
+              <span>Firm / hard</span>
+            </label>
+            <label [class.selected]="shotForm.controls.bunkerSand.value === 'soft'">
+              <input type="radio" formControlName="bunkerSand" value="soft" />
+              <span>Soft</span>
+            </label>
+          </div>
+        </fieldset>
+      }
+
       <div class="hazards" aria-label="Hazards and obstructions">
         <label class="check-row"
           ><input type="checkbox" formControlName="bunkerInFront" /><span
@@ -161,18 +186,7 @@
           <strong>Keep in mind</strong>
           <ul>
             @for (warning of result.warnings; track warning) {
-              @if (warning.startsWith('Swing:')) {
-                <li>
-                  <strong>Swing</strong>
-                  <ul class="swing-cues">
-                    @for (cue of splitSwingCues(warning); track cue) {
-                      <li>{{ cue }}</li>
-                    }
-                  </ul>
-                </li>
-              } @else {
-                <li>{{ warning }}</li>
-              }
+              <li>{{ warning }}</li>
             }
           </ul>
         </div>
