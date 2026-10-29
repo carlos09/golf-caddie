@@ -21,6 +21,24 @@ export class ShotAdvisorComponent {
   readonly recommendation = signal<Recommendation | null>(null);
   readonly activeClubCount = computed(() => this.bag().filter((club) => club.active && club.carryDistanceYards !== undefined).length);
 
+  readonly lieOptions: { value: ShotInput['lieType']; label: string; image: string }[] = [
+    { value: 'fairway', label: 'Fairway', image: 'fairway-icon.svg' },
+    { value: 'rough', label: 'Rough', image: 'rough-icon.svg' },
+    { value: 'bunker', label: 'Bunker', image: 'bunker-icon.svg' },
+    { value: 'tee', label: 'Tee', image: 'tee-icon.svg' },
+    { value: 'other', label: 'Other', image: 'level-icon.svg' },
+  ];
+  readonly ballPositionOptions: { value: ShotInput['ballPosition']; label: string; image: string }[] = [
+    { value: 'level', label: 'Level', image: 'level-icon.svg' },
+    { value: 'above', label: 'Above feet', image: 'above-feet-icon.svg' },
+    { value: 'below', label: 'Below feet', image: 'below-feet-icon.svg' },
+  ];
+  readonly slopeOptions: { value: ShotInput['slope']; label: string; image: string }[] = [
+    { value: 'level', label: 'Level', image: 'level-icon.svg' },
+    { value: 'uphill', label: 'Uphill', image: 'uphill-icon.svg' },
+    { value: 'downhill', label: 'Downhill', image: 'downhill-icon.svg' },
+  ];
+
   readonly shotForm = this.formBuilder.nonNullable.group({
     distanceToPinYards: [150, [Validators.required, Validators.min(1), Validators.max(600)]],
     lieType: ['fairway' as ShotInput['lieType']],
@@ -31,7 +49,6 @@ export class ShotAdvisorComponent {
     hazardCarryYards: ['', [Validators.pattern(/^$|^\d+(\.\d+)?$/), Validators.min(1), Validators.max(600)]],
     treeObstruction: [false],
     treeShotPath: ['uncertain' as ShotInput['treeShotPath']],
-    wind: ['calm' as ShotInput['wind']],
   });
 
   splitSwingCues(warning: string): string[] {

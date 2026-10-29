@@ -1,0 +1,18 @@
+// Original Golf Caddie green palette, retained as Sass variables for easy retheming.
+$ink: #19352d;
+$light-cyan: #ffffff;
+$silver: #f4f6f0;
+$dusty-olive: #e2e9e1;
+$moss-green: #edf4e3;
+$radioactive-grass: #d8ed8a;
+$focus-green: #94bd58;
+
+:root {
+  --palette-ink: #{$ink};
+  --palette-light-cyan: #{$light-cyan};
+  --palette-silver: #{$silver};
+  --palette-dusty-olive: #{$dusty-olive};
+  --palette-moss-green: #{$moss-green};
+  --palette-radioactive-grass: #{$radioactive-grass};
+  --palette-focus-green: #{$focus-green};
+}

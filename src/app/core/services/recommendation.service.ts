@@ -51,8 +51,6 @@ export class RecommendationService {
     const distanceCues: string[] = [];
     if (shot.lieType === 'rough') distanceCues.push('rough can reduce carry');
     if (shot.lieType === 'bunker') distanceCues.push('from sand, clear the lip');
-    if (shot.wind === 'strong') distanceCues.push('if headwind, consider more club');
-    if (shot.wind === 'moderate') distanceCues.push('moderate wind can shift carry');
 
     if (stanceCues.length || distanceCues.length) {
       const cues = [...stanceCues, ...distanceCues].join('; ');

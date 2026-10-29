@@ -1,7 +1,6 @@
 export type LieType = 'fairway' | 'rough' | 'bunker' | 'tee' | 'other';
 export type FootPosition = 'level' | 'above' | 'below';
 export type SlopeDirection = 'level' | 'uphill' | 'downhill';
-export type WindCondition = 'calm' | 'light' | 'moderate' | 'strong';
 export type TreeShotPath = 'clear' | 'blocked' | 'uncertain';
 
 export interface ShotInput {
@@ -15,5 +14,4 @@ export interface ShotInput {
   hazardCarryYards?: number;
   treeObstruction: boolean;
   treeShotPath: TreeShotPath;
-  wind: WindCondition;
 }

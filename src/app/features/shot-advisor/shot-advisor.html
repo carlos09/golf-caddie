@@ -33,38 +33,46 @@
 
     <fieldset class="conditions">
       <legend>Shot conditions <span>Optional</span></legend>
-      <div class="condition-grid">
-        <label class="field-label" for="lie">Lie</label>
-        <select id="lie" formControlName="lieType">
-          <option value="fairway">Fairway</option>
-          <option value="rough">Rough</option>
-          <option value="bunker">Bunker</option>
-          <option value="tee">Tee</option>
-          <option value="other">Other</option>
-        </select>
 
-        <label class="field-label" for="ball-position">Ball at your feet</label>
-        <select id="ball-position" formControlName="ballPosition">
-          <option value="level">Level</option>
-          <option value="above">Above feet</option>
-          <option value="below">Below feet</option>
-        </select>
+      <fieldset class="condition-group">
+        <legend>Lie</legend>
+        <div class="condition-options">
+          @for (option of lieOptions; track option.value) {
+            <label class="condition-option" [class.selected]="shotForm.controls.lieType.value === option.value">
+              <input type="radio" formControlName="lieType" [value]="option.value" />
+              <img [src]="'images/thumbs/' + option.image" alt="" />
+              <span>{{ option.label }}</span>
+            </label>
+          }
+        </div>
+      </fieldset>
 
-        <label class="field-label" for="slope">Ground slope</label>
-        <select id="slope" formControlName="slope">
-          <option value="level">Level</option>
-          <option value="uphill">Uphill</option>
-          <option value="downhill">Downhill</option>
-        </select>
+      <fieldset class="condition-group">
+        <legend>Ball position</legend>
+        <div class="condition-options">
+          @for (option of ballPositionOptions; track option.value) {
+            <label class="condition-option" [class.selected]="shotForm.controls.ballPosition.value === option.value">
+              <input type="radio" formControlName="ballPosition" [value]="option.value" />
+              <img [src]="'images/thumbs/' + option.image" alt="" />
+              <span>{{ option.label }}</span>
+            </label>
+          }
+        </div>
+      </fieldset>
 
-        <label class="field-label" for="wind">Wind</label>
-        <select id="wind" formControlName="wind">
-          <option value="calm">Calm</option>
-          <option value="light">Light</option>
-          <option value="moderate">Moderate</option>
-          <option value="strong">Strong</option>
-        </select>
-      </div>
+      <fieldset class="condition-group">
+        <legend>Slope</legend>
+        <div class="condition-options">
+          @for (option of slopeOptions; track option.value) {
+            <label class="condition-option" [class.selected]="shotForm.controls.slope.value === option.value">
+              <input type="radio" formControlName="slope" [value]="option.value" />
+              <img [src]="'images/thumbs/' + option.image" alt="" />
+              <span>{{ option.label }}</span>
+            </label>
+          }
+        </div>
+      </fieldset>
+
       <div class="hazards" aria-label="Hazards and obstructions">
         <label class="check-row"
           ><input type="checkbox" formControlName="bunkerInFront" /><span
@@ -106,14 +114,23 @@
         </div>
       }
       @if (shotForm.controls.treeObstruction.value) {
-        <div class="supplemental-condition">
-          <label for="tree-path">Is the normal shot window clear?</label>
-          <select id="tree-path" formControlName="treeShotPath">
-            <option value="uncertain">Not sure</option>
-            <option value="clear">Yes, full path is clear</option>
-            <option value="blocked">No, blocked</option>
-          </select>
-        </div>
+        <fieldset class="tree-path-options">
+          <legend>Is the normal shot window clear?</legend>
+          <div class="text-options">
+            <label [class.selected]="shotForm.controls.treeShotPath.value === 'uncertain'">
+              <input type="radio" formControlName="treeShotPath" value="uncertain" />
+              <span>Not sure</span>
+            </label>
+            <label [class.selected]="shotForm.controls.treeShotPath.value === 'clear'">
+              <input type="radio" formControlName="treeShotPath" value="clear" />
+              <span>Yes, full path is clear</span>
+            </label>
+            <label [class.selected]="shotForm.controls.treeShotPath.value === 'blocked'">
+              <input type="radio" formControlName="treeShotPath" value="blocked" />
+              <span>No, blocked</span>
+            </label>
+          </div>
+        </fieldset>
       }
     </fieldset>
 
@@ -130,7 +147,7 @@
       <div class="result-heading">
         <span class="result-icon" aria-hidden="true">✳</span>
         <div>
-          <p class="eyebrow">STARTING SUGGESTION</p>
+          <p class="eyebrow">STARTING SUGGESTION:</p>
           <h2>{{ result.primaryClub.name }}</h2>
         </div>
       </div>
@@ -177,7 +194,9 @@
   </aside>
 </div>
 
-<p class="estimate-note">Condition notes are tendencies, not guarantees; your lie and strike affect the result.</p>
+<p class="estimate-note">
+  Condition notes are tendencies, not guarantees; your lie and strike affect the result.
+</p>
 
 @if (recommendation()) {
   <div class="mobile-scroll-reserve" aria-hidden="true"></div>
