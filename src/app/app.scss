@@ -10,8 +10,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  background: #b9cfbc;
+  background: #fff;
   color: var(--palette-light-cyan);
+  border-bottom: 3px solid var(--palette-light-green);
 }
 .brand {
   display: inline-flex;
@@ -26,7 +27,7 @@
 .brand img {
   display: block;
   width: auto;
-  height: 50px;
+  height: 60px;
   max-width: min(180px, 50vw);
   object-fit: contain;
 }

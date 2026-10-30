@@ -1,0 +1,76 @@
+<section class="intro">
+  <p class="eyebrow">SETUP & SWING</p>
+  <h1>Club tips</h1>
+  <p class="intro-copy">Choose a club type, then a club from My Bag for quick setup and contact cues.</p>
+</section>
+
+<section class="tips-card" aria-label="Choose a club type">
+  <div class="type-grid" role="group" aria-label="Club type">
+    @for (group of groupOptions; track group.value) {
+      <button
+        class="type-option"
+        type="button"
+        [class.selected]="selectedGroup() === group.value"
+        [attr.aria-pressed]="selectedGroup() === group.value"
+        (click)="selectGroup(group.value)"
+      >
+        <img [src]="'images/thumbs/' + group.icon" alt="" />
+        <span>{{ group.label }}</span>
+      </button>
+    }
+  </div>
+
+  @if (matchingClubs().length) {
+    <fieldset class="club-picker">
+      <legend>Select a club from My Bag</legend>
+      <div class="club-options">
+        @for (club of matchingClubs(); track club.id) {
+          <button
+            class="club-option"
+            type="button"
+            [class.selected]="selectedClub()?.id === club.id"
+            [attr.aria-pressed]="selectedClub()?.id === club.id"
+            (click)="selectClub(club.id)"
+          >
+            <span>{{ club.name }}</span>
+            @if (!club.active) {
+              <small>Inactive</small>
+            }
+          </button>
+        }
+      </div>
+    </fieldset>
+  } @else {
+    <p class="empty-clubs">No matching clubs in <a routerLink="/my-bag">My Bag</a>.</p>
+  }
+
+  @if (selectedClub(); as club) {
+    <p class="selected-club">
+      {{ club.name }}
+      @if (club.loftDegrees !== undefined) {
+        <span>{{ club.loftDegrees }}°</span>
+      }
+    </p>
+  }
+
+  <div class="tip-sections">
+    <section class="tip-section">
+      <h2>Setup</h2>
+      <ul>
+        @for (tip of setupTips(); track tip) {
+          <li>{{ tip }}</li>
+        }
+      </ul>
+    </section>
+    <section class="tip-section">
+      <h2>Contact</h2>
+      <ul>
+        @for (tip of swingTips(); track tip) {
+          <li>{{ tip }}</li>
+        }
+      </ul>
+    </section>
+  </div>
+</section>
+
+<p class="tip-note">Starting points only. Adjust for your lie, target, and normal ball flight.</p>

@@ -19,7 +19,9 @@ export class ShotAdvisorComponent {
   private readonly bag = signal(this.bagStorage.getBag());
 
   readonly recommendation = signal<Recommendation | null>(null);
-  readonly activeClubCount = computed(() => this.bag().filter((club) => club.active && club.carryDistanceYards !== undefined).length);
+  readonly activeClubCount = computed(
+    () => this.bag().filter((club) => club.active && club.carryDistanceYards !== undefined).length,
+  );
 
   readonly lieOptions: { value: ShotInput['lieType']; label: string; image: string }[] = [
     { value: 'fairway', label: 'Fairway', image: 'fairway-icon.svg' },
@@ -28,7 +30,11 @@ export class ShotAdvisorComponent {
     { value: 'tee', label: 'Tee', image: 'tee-icon.svg' },
     { value: 'other', label: 'Other', image: 'level-icon.svg' },
   ];
-  readonly ballPositionOptions: { value: ShotInput['ballPosition']; label: string; image: string }[] = [
+  readonly ballPositionOptions: {
+    value: ShotInput['ballPosition'];
+    label: string;
+    image: string;
+  }[] = [
     { value: 'level', label: 'Level', image: 'level-icon.svg' },
     { value: 'above', label: 'Above feet', image: 'above-feet-icon.svg' },
     { value: 'below', label: 'Below feet', image: 'below-feet-icon.svg' },
@@ -48,10 +54,28 @@ export class ShotAdvisorComponent {
     chipShot: [false],
     bunkerInFront: [false],
     waterInFront: [false],
-    hazardCarryYards: ['', [Validators.pattern(/^$|^\d+(\.\d+)?$/), Validators.min(1), Validators.max(600)]],
+    hazardCarryYards: [
+      '',
+      [Validators.pattern(/^$|^\d+(\.\d+)?$/), Validators.min(1), Validators.max(600)],
+    ],
     treeObstruction: [false],
     treeShotPath: ['uncertain' as ShotInput['treeShotPath']],
   });
+
+  clubIconFor(name: string): string {
+    const clubName = name.toLowerCase();
+    let icon = 'iron-icon.svg';
+
+    if (clubName.includes('driver')) {
+      icon = 'driver-icon.svg';
+    } else if (clubName.includes('wedge') || /\b(pw|aw)\b/.test(clubName)) {
+      icon = 'wedge-icon-icon.svg';
+    } else if (clubName.includes('hybrid') || clubName.includes('wood')) {
+      icon = 'hybrid-wood-icon.svg';
+    }
+
+    return `images/thumbs/${icon}`;
+  }
 
   getRecommendation(): void {
     if (this.shotForm.invalid) {

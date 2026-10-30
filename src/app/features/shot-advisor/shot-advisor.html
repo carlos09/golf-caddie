@@ -23,7 +23,7 @@
         />
         <span>yd</span>
       </div>
-      <small id="distance-help">Measure from your ball to the pin.</small>
+      <!-- <small id="distance-help">Measure from your ball to the pin.</small> -->
       @if (
         shotForm.controls.distanceToPinYards.invalid && shotForm.controls.distanceToPinYards.touched
       ) {
@@ -38,7 +38,10 @@
         <legend>Lie</legend>
         <div class="condition-options">
           @for (option of lieOptions; track option.value) {
-            <label class="condition-option" [class.selected]="shotForm.controls.lieType.value === option.value">
+            <label
+              class="condition-option"
+              [class.selected]="shotForm.controls.lieType.value === option.value"
+            >
               <input type="radio" formControlName="lieType" [value]="option.value" />
               <img [src]="'images/thumbs/' + option.image" alt="" />
               <span>{{ option.label }}</span>
@@ -51,7 +54,10 @@
         <legend>Ball position</legend>
         <div class="condition-options">
           @for (option of ballPositionOptions; track option.value) {
-            <label class="condition-option" [class.selected]="shotForm.controls.ballPosition.value === option.value">
+            <label
+              class="condition-option"
+              [class.selected]="shotForm.controls.ballPosition.value === option.value"
+            >
               <input type="radio" formControlName="ballPosition" [value]="option.value" />
               <img [src]="'images/thumbs/' + option.image" alt="" />
               <span>{{ option.label }}</span>
@@ -64,7 +70,10 @@
         <legend>Slope</legend>
         <div class="condition-options">
           @for (option of slopeOptions; track option.value) {
-            <label class="condition-option" [class.selected]="shotForm.controls.slope.value === option.value">
+            <label
+              class="condition-option"
+              [class.selected]="shotForm.controls.slope.value === option.value"
+            >
               <input type="radio" formControlName="slope" [value]="option.value" />
               <img [src]="'images/thumbs/' + option.image" alt="" />
               <span>{{ option.label }}</span>
@@ -73,10 +82,10 @@
         </div>
       </fieldset>
 
-      <label class="check-row chip-toggle">
+      <!-- <label class="check-row chip-toggle">
         <input type="checkbox" formControlName="chipShot" />
         <span>Chip shot</span>
-      </label>
+      </label> -->
 
       @if (shotForm.controls.lieType.value === 'bunker') {
         <fieldset class="tree-path-options">
@@ -170,7 +179,7 @@
   <aside id="recommendation-panel" class="result-card" aria-live="polite" aria-atomic="true">
     @if (recommendation(); as result) {
       <div class="result-heading">
-        <span class="result-icon" aria-hidden="true">✳</span>
+        <img class="result-icon" [src]="clubIconFor(result.primaryClub.name)" alt="" />
         <div>
           <p class="eyebrow">STARTING SUGGESTION:</p>
           <h2>{{ result.primaryClub.name }}</h2>
@@ -199,7 +208,7 @@
       }
     } @else {
       <div class="empty-result">
-        <span class="empty-icon" aria-hidden="true">⌁</span>
+        <!-- <span class="empty-icon" aria-hidden="true">⌁</span> -->
         <p class="eyebrow">READY WHEN YOU ARE</p>
         <h2>Your suggestion<br />will show up here.</h2>
         <p>Enter your distance and tap the button to see a club from your bag.</p>
@@ -208,9 +217,9 @@
   </aside>
 </div>
 
-<p class="estimate-note">
+<!-- <p class="estimate-note">
   Condition notes are tendencies, not guarantees; your lie and strike affect the result.
-</p>
+</p> -->
 
 @if (recommendation()) {
   <div class="mobile-scroll-reserve" aria-hidden="true"></div>

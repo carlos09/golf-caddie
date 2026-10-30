@@ -6,7 +6,8 @@ $dusty-olive: #e2e9e1;
 $moss-green: #edf4e3;
 $radioactive-grass: #d8ed8a;
 $focus-green: #94bd58;
-$light-green: #698c6e;
+$light-green: #829d7e;
+$dark-green: #1b6247;
 
 :root {
   --palette-ink: #{$ink};
@@ -17,4 +18,5 @@ $light-green: #698c6e;
   --palette-radioactive-grass: #{$radioactive-grass};
   --palette-focus-green: #{$focus-green};
   --palette-light-green: #{$light-green};
+  --palette-dark-green: #{$dark-green};
 }

@@ -156,9 +156,9 @@ small {
 }
 .condition-option.selected,
 .text-options label.selected {
-  border-color: #1b6247;
+  border-color: var(--palette-dark-green);
   background: #edf4e3;
-  box-shadow: 0 0 0 1px #1b6247;
+  box-shadow: 0 0 0 1px var(--palette-dark-green);
 }
 .condition-option:focus-within,
 .text-options label:focus-within {
@@ -241,7 +241,7 @@ small {
   align-items: center;
   border: 0;
   border-radius: 12px;
-  background: #1b6247;
+  background: var(--palette-dark-green);
   color: var(--palette-light-cyan);
   font-weight: 750;
   cursor: pointer;
@@ -273,7 +273,7 @@ small {
   scroll-margin-top: 16px;
 }
 .empty-result {
-  min-height: 310px;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -308,14 +308,11 @@ small {
   align-items: center;
 }
 .result-icon {
+  display: block;
   width: 48px;
   height: 48px;
-  display: grid;
-  place-items: center;
   border-radius: 15px;
-  background: var(--palette-moss-green);
-  color: var(--palette-ink);
-  font-size: 1.45rem;
+  object-fit: contain;
 }
 .result-heading .eyebrow {
   margin-bottom: 4px;
