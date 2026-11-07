@@ -1,0 +1,61 @@
+<section class="intro">
+  <p class="eyebrow">QUICK REFERENCE</p>
+  <h1>Shot Tips</h1>
+  <p class="intro-copy">
+    Fast reminders for common shots. Use them as starting points and adjust for your lie and landing
+    area.
+  </p>
+</section>
+
+<div class="shot-grid">
+  @for (shot of shots; track shot.title) {
+    <article class="shot-card">
+      <div class="illustration-space">
+        <img
+          [src]="'images/thumbs/' + shot.image"
+          [alt]="shot.title + ' illustration: overhead stance, ball position, and swing path'"
+          loading="lazy"
+        />
+      </div>
+      <div class="shot-content">
+        <p class="shot-tag">{{ shot.tag }}</p>
+        <h2>{{ shot.title }}</h2>
+        <p class="shot-goal">{{ shot.goal }}</p>
+        <div class="shot-detail">
+          <h3>When to use</h3>
+          <p>{{ shot.when }}</p>
+        </div>
+        <div class="shot-detail">
+          <h3>Setup</h3>
+          <ul>
+            @for (point of shot.setup; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        </div>
+        <div class="shot-detail">
+          <h3>Swing</h3>
+          <ul>
+            @for (point of shot.swing; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        </div>
+        <div class="shot-detail quick-pair">
+          <div>
+            <h3>Common mistake</h3>
+            <p>{{ shot.commonMistake }}</p>
+          </div>
+          <div>
+            <h3>Practice</h3>
+            <p>{{ shot.practice }}</p>
+          </div>
+        </div>
+        <div class="club-line">
+          <span>Club</span>
+          <p>{{ clubsFor(shot).join(' · ') }}</p>
+        </div>
+      </div>
+    </article>
+  }
+</div>
